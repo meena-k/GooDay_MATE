@@ -103,7 +103,7 @@ public class ViewXrayActivity extends AppCompatActivity implements ViewDocument,
             createFile(getApplicationContext(), fileUri, file);
 
             uploadObserver = transferUtility.upload(
-                    "mate-bucket/" + patient_name,     /* 업로드 할 버킷 이름 */
+                    "mate-bucket" ,     /* 업로드 할 버킷 이름 */
                     patient_name + ".jpg",  /* 버킷에 저장할 파일의 이름 */
                     file     /* 버킷에 저장할 파일  */
             );
@@ -143,7 +143,7 @@ public class ViewXrayActivity extends AppCompatActivity implements ViewDocument,
             final File localFile = File.createTempFile("images", "jpg");
 
             downloadObserver = transferUtility.download(
-                    "mate-bucket/" + patient_name,     /* 업로드 할 버킷 이름 */
+                    "mate-bucket",     /* 업로드 할 버킷 이름 */
                     patient_name + ".jpg",     /* 다운로드할 파일의 이름 */
                     localFile     /* 다운로드할 파일  */
             );

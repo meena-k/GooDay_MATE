@@ -17,6 +17,7 @@ public class TabbedDialog extends DialogFragment {
 
     // 각각의 탭의 view
     ViewPager viewPager;
+    String patient_birth;
 
     @Override
     public void onStart() {
@@ -32,17 +33,20 @@ public class TabbedDialog extends DialogFragment {
 
     }
 
+    public void setPatient_Key(String patient_birth) {
+        this.patient_birth = patient_birth;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View rootview = inflater.inflate(R.layout.dialog_check, container, false);
         tabLayout = rootview.findViewById(R.id.tabLayout);
         viewPager = rootview.findViewById(R.id.checkViewPager);
 
         CustomAdapter adapter = new CustomAdapter(getChildFragmentManager());
-        adapter.addFragment("식사", MealFragment.createInstance());
-        adapter.addFragment("약", PillFragment.createInstance());
+        adapter.addFragment("식사", MealFragment.createInstance(patient_birth));
+        adapter.addFragment("약", PillFragment.createInstance(patient_birth));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

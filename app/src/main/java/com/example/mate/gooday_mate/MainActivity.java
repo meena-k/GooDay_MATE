@@ -167,12 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getData(String data_url) {
-        Log.i("eundddo_2stgetdata", data_url);
         class GetDataJSON extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
-                Log.i("eundddo_3stdo", params[0]);
-
                 String uri = params[0];
                 StringBuilder sb = new StringBuilder();
                 BufferedReader bufferedReader = null;
@@ -185,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json + "\n");
                     }
-                    Log.i("eundddo_4stgetdatasb", sb.toString());
                     return sb.toString();
 
                 } catch (Exception e) {
@@ -195,17 +191,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected void onPostExecute(String result) {
-                Log.i("eundddo_5stgetdatasb", result);
                 myJSON = result;
                 showList();
             }
 
         }
-        Log.i("eundddo_6stgetdatasb", "getdata bottm");
         GetDataJSON g = new GetDataJSON();
         g.execute(data_url);
-        Log.i("eundddo_7stgetdatasb", "getdata afterexec");
-
     }
 
     private void insertToDatabase(String url, String patient_JSON) {

@@ -25,6 +25,8 @@ public class CustomAdapter extends FragmentPagerAdapter {
         mFragmentCollection.add(fragment);
     }
 
+
+
 //Needed for
 
     @Override
