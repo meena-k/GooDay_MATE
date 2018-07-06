@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GooDay ; MATE</string>
+    <string name="btn_negative_txt">취소</string>
+    <string name="btn_positive_txt">확인</string>
+</resources>

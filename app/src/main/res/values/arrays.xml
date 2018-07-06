@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dialog_array">
+        <item>인쇄하기</item>
+        <item>공유하기</item>
+    </string-array>
+
+    <string-array name="document_array">
+        <item>처방전</item>
+        <item>X-Ray</item>
+        <item>MRI</item>
+    </string-array>
+
+</resources>
