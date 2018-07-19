@@ -6,9 +6,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.NTERACT_ACROSS_USERS_FULL" />
-
+    /
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -29,11 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewPrescriptionActivity" />
-        <activity android:name=".ViewMriActivity" />
-        <activity android:name=".ViewXrayActivity" />
-        <activity android:name=".ShowPatientActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ShowPatientActivity" />
+        <activity android:name=".ViewDocumentActivity" />
+        <activity android:name=".DownloadSelectionActivity" />
         <activity android:name=".RegisterManagerActivity"></activity>
     </application>
 

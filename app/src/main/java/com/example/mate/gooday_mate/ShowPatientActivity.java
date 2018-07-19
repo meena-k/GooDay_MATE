@@ -23,7 +23,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
     private String patientJSON;
 
     CircleImageView imgPatient;
-    private String patient_name, patient_birth, channel, port;
+    private String patient_name, patient_birth, patient_dateIn, patient_dateOut, patient_guardian, channel, port;
     TextView name, txtBirth, txtDisease, txtDateIn, txtDateOut, txtGuardian;
     TabbedDialog tabbedDialog;
 
@@ -43,6 +43,9 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             contents = jsonObj.getJSONArray("result");
             patient_name = contents.getJSONObject(0).getString("name");
             patient_birth = contents.getJSONObject(0).getString("birth");
+            patient_dateIn = contents.getJSONObject(0).getString("enterdate");
+            patient_dateOut = contents.getJSONObject(0).getString("outdate");
+            patient_guardian = contents.getJSONObject(0).getString("guardian");
             channel = contents.getJSONObject(0).getString("channel");
             port = contents.getJSONObject(0).getString("port");
 
@@ -52,14 +55,18 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
 
         name = findViewById(R.id.name);
-        name.setText(patient_name);
         imgPatient = findViewById(R.id.image);
         txtBirth = findViewById(R.id.txt_birth);
-        txtBirth.setText(patient_birth);
         txtDisease = findViewById(R.id.txt_disease);
         txtDateIn = findViewById(R.id.txt_date_in);
         txtDateOut = findViewById(R.id.txt_date_out);
         txtGuardian = findViewById(R.id.txt_guardian);
+
+        name.setText(patient_name);
+        txtBirth.setText(patient_birth);
+        txtDateIn.setText(patient_dateIn);
+        txtDateOut.setText(patient_dateOut);
+        txtGuardian.setText(patient_guardian);
 
         imgPatient.setOnClickListener(this);
         findViewById(R.id.btn_meal).setOnClickListener(this);
@@ -69,7 +76,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.image:
                 //이미지 확대
@@ -94,19 +101,25 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             case R.id.btn_document:
                 AlertDialog.Builder builder_document = new AlertDialog.Builder(this);
                 builder_document.setItems(R.array.document_array, new DialogInterface.OnClickListener() {
+                    Intent viewIntent;
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        viewIntent = new Intent(ShowPatientActivity.this, ViewDocumentActivity.class);
+
                         switch (which) {
                             case 0:
-                                startActivity(new Intent(ShowPatientActivity.this, ViewPrescriptionActivity.class));
+                                viewIntent.putExtra("folder", "PRESCRIPTION");
                                 break;
                             case 1:
-                                startActivity(new Intent(ShowPatientActivity.this, ViewXrayActivity.class));
+                                viewIntent.putExtra("folder", "X-RAY");
                                 break;
                             case 2:
-                                startActivity(new Intent(ShowPatientActivity.this, ViewMriActivity.class));
+                                viewIntent.putExtra("folder", "MRI");
                                 break;
                         }
+                        viewIntent.putExtra("name", patient_name);
+                        startActivity(viewIntent);
                     }
                 })
                         .setNegativeButton(R.string.btn_negative_txt, null)
