@@ -1,4 +1,4 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.Fragment;
 
 
 import android.app.ProgressDialog;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+
+import com.example.mate.gooday_mate.service.Config;
+import com.example.mate.gooday_mate.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

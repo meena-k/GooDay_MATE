@@ -13,6 +13,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +27,8 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.util.IOUtils;
+import com.example.mate.gooday_mate.service.Config;
+import com.example.mate.gooday_mate.service.Util;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -39,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ViewDocumentActivity extends AppCompatActivity implements View.OnClickListener {
-//test
+
     private static final int UPLOAD_REQUEST_CODE = 1;
     private static final int DOWNLOAD_SELECTION_REQUEST_CODE = 2;
 
@@ -58,7 +61,8 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
 
     private AlertDialog alertDialog;
     public static boolean isDocument = false;
-    private String folder_name;
+    private String patient_name, folder_birth, folder_document;
+    private String lastfile;
 
 
     @Override
@@ -80,16 +84,21 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
         docImg = findViewById(R.id.docImg);
 
         Intent getIntent = this.getIntent();
-        nameTxt.setText(getIntent.getStringExtra("name"));
-        folder_name = getIntent.getStringExtra("folder");
-        docTxt.setText(folder_name);
+        patient_name = getIntent.getStringExtra("name");
+        folder_birth = getIntent.getStringExtra("birth");
+        folder_document = getIntent.getStringExtra("folder");
+
+        nameTxt.setText(patient_name);
+        docTxt.setText(folder_document);
 
         scanBtn.setOnClickListener(this);
         listImg.setOnClickListener(this);
         docImg.setOnClickListener(this);
 
         if (getDocumentList()) { // 버튼 비활성화
-            downloadFile(getCurrentTime("yyyy.MM.dd") + ".jpg");
+            downloadFile(folder_birth + "/" + folder_document + "/" + lastfile + ".jpg");
+        } else {
+            Toast.makeText(getApplicationContext(), folder_document + "을 추가해주세요", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -99,10 +108,18 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "Could not find the filepath of the selected file", Toast.LENGTH_LONG).show();
             return;
         }
-
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/" + getCurrentTime("yyyy.MM.dd") + ".jpg");
+        String filename = new SimpleDateFormat("yyyy.MM.dd_hh:mm").format(new Date(System.currentTimeMillis()));
+        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/" + filename + ".jpg");
         createFile(getApplicationContext(), fileUri, file);
-        transferUtility.upload(Config.BUCKET_NAME + "/" + folder_name, file.getName(), file);
+        Log.i("LOG_", "filename:" + filename + "--- getName(): " + file.getName() + "---- Path: " + file.getAbsolutePath());
+        transferUtility.upload(Config.BUCKET_NAME + "/" + folder_birth + "/" + folder_document, file.getName(), file);
+        if (folder_document.equals("PRESCRIPTION")) {
+            Config.PATIENT_PRES = file.getAbsolutePath();
+        } else if (folder_document.equals("X-RAY")) {
+            Config.PATIENT_XRAY = file.getAbsolutePath();
+        } else if (folder_document.equals("MRI")) {
+            Config.PATIENT_MRI = file.getAbsolutePath();
+        }
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
             getContentResolver().delete(fileUri, null, null);
@@ -118,13 +135,14 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
         try {
             final File file = File.createTempFile("images", "jpg");
 
-            //new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
-            TransferObserver downloadObserver = transferUtility.download(Config.BUCKET_NAME + "/" + folder_name, key, file);
+            TransferObserver downloadObserver = transferUtility.download(Config.BUCKET_NAME, key, file);
+            String temp[] = key.split("/");
+            final String file_time[] = temp[2].split("_");
             downloadObserver.setTransferListener(new TransferListener() {
                 @Override
                 public void onStateChanged(int id, TransferState state) {
                     if (TransferState.COMPLETED == state) {
-                        Toast.makeText(getApplicationContext(), "Download Completed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), patient_name + "님 " + file_time[0] + " " + folder_document, Toast.LENGTH_SHORT).show();
                         Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
                         docImg.setImageBitmap(bmp);
                     }
@@ -170,7 +188,8 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.docImg:
                 Intent DownIntent = new Intent(this, DownloadSelectionActivity.class);
-                DownIntent.putExtra("folder", folder_name);
+                DownIntent.putExtra("birth", folder_birth);
+                DownIntent.putExtra("folder", folder_document);
                 startActivityForResult(DownIntent, DOWNLOAD_SELECTION_REQUEST_CODE);
                 break;
         }
@@ -185,8 +204,6 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
             }
         } else if (requestCode == DOWNLOAD_SELECTION_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // Start downloading with the key they selected in the
-                // DownloadSelectionActivity screen.
                 String key = data.getStringExtra("key");
                 downloadFile(key);
             }
@@ -201,11 +218,11 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
         // The list of objects we find in the S3 bucket
         List<S3ObjectSummary> s3ObjList;
 
-        s3ObjList = s3.listObjects(Config.BUCKET_NAME).getObjectSummaries();
+        s3ObjList = s3.listObjects(Config.BUCKET_NAME, folder_birth + "/" + folder_document + "/").getObjectSummaries();
 
-        Date date = null;
+
         for (S3ObjectSummary summary : s3ObjList) {
-            date = summary.getLastModified();
+            lastfile = new SimpleDateFormat("yyyy.MM.dd_hh:mm").format(summary.getLastModified());
         }
 
         if (!s3ObjList.isEmpty())
@@ -214,9 +231,6 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
         return isDocument;
     }
 
-    public static String getCurrentTime(String timeFormat) {
-        return new SimpleDateFormat(timeFormat).format(new Date(System.currentTimeMillis()));
-    }
 
     public void createFile(Context context, Uri srcUri, File dstFile) {
         try {

@@ -14,9 +14,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mate.gooday_mate.Fragment.PatientDialogFragment;
+import com.example.mate.gooday_mate.adapter.RecyclerAdapter;
+import com.example.mate.gooday_mate.service.Config;
+import com.example.mate.gooday_mate.service.Item_Main;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -36,13 +39,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, RecyclerAdapter.ItemListener, PatientDialogFragment.PatientDialogFragmentListener {
     String SHOWDATA_URL = Config.URL + "show_patient.php";
     String CHECKDATA_URL = Config.URL + "patient_register.php";
-    String echo = null;
     RecyclerAdapter recyclerAdapter;
     private String patient_JSON = null;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private AlertDialog alertDialog;
-    private ImageView managerBtn, addpatientBtn, qrBtn, gpsBtn, camBtn;
 
     //qr code scanner object
     private IntentIntegrator qrScan;
@@ -52,17 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Item_Main> items = new ArrayList<>();
     String myJSON;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("LOG_onCreate", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initViews();
     }
 
     private void initViews() {
-        Log.i("eundddo_1ininViews", "beforegetdata");
+        Log.i("LOG_1ininViews", "beforegetdata");
         getData(SHOWDATA_URL);
 
         layoutManager = new GridLayoutManager(MainActivity.this, 3);
@@ -72,16 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //intializing scan object
         qrScan = new IntentIntegrator(this);
 
-        managerBtn = findViewById(R.id.manager);
-        addpatientBtn = findViewById(R.id.addpatient);
-        qrBtn = findViewById(R.id.ic_qr);
-        gpsBtn = findViewById(R.id.ic_map);
-        camBtn = findViewById(R.id.ic_cam);
-        managerBtn.setOnClickListener(this);
-        addpatientBtn.setOnClickListener(this);
-        qrBtn.setOnClickListener(this);
-        gpsBtn.setOnClickListener(this);
-        camBtn.setOnClickListener(this);
+        findViewById(R.id.manager).setOnClickListener(this);
+        findViewById(R.id.addpatient).setOnClickListener(this);
+        findViewById(R.id.ic_qr).setOnClickListener(this);
+        findViewById(R.id.ic_search).setOnClickListener(this);
+        findViewById(R.id.ic_notice).setOnClickListener(this);
     }
 
     @Override
@@ -115,25 +110,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 qrScan.setPrompt("Scanning...");
                 qrScan.initiateScan();
                 break;
-            case R.id.ic_map:
+            case R.id.ic_search:
                 //       startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
-            case R.id.ic_cam:
-                //      Intent intent = new Intent(MainActivity.this, CctvActivity.class);
-                //      intent.putExtra("resultFromMainActivity", myJSON);
-                //      Log.i("ERRR", myJSON);
-                //    startActivity(intent);
+            case R.id.ic_notice:
+                startActivity(new Intent(MainActivity.this, NoticeActivity.class));
                 break;
         }
     }
 
     @Override
     public void onItemClick(final Item_Main item) {
-      /*  FragmentManager manager = getSupportFragmentManager();
-        PatientDialogFragment dialogFragment = new PatientDialogFragment();
-        dialogFragment.show(manager, "fragment_dialog_test");
-        onPatientDialogClick(dialogFragment,item.getName());*/
-
         AlertDialog.Builder showbuilder = new AlertDialog.Builder(this);
         showbuilder.setTitle("my Patient");
         showbuilder.setMessage(item.getName() + " 님" + "\n" + "생년월일    " + item.getBirth() + "  " + "입원일   " + item.getEnterdate());
@@ -202,20 +189,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void insertToDatabase(String url, String patient_JSON) {
-        Log.i("eundddo_8stinsert", url);
+        Log.i("LOG_8stinsert", url);
 
         class insertData extends AsyncTask<String, Void, String> {
 
             @Override
             protected String doInBackground(String... params) {
-                Log.i("eundddo_11doI", params[0]);
+                Log.i("LOG_11doI", params[0]);
                 String uri = params[0];
                 StringBuilder sb = new StringBuilder();
                 BufferedReader bufferedReader = null;
 
                 try {
                     URL url = new URL(uri);
-                    Log.i("eundddo_12doI", params[1]);
+                    Log.i("LOG_12doI", params[1]);
                     jsonObj = new JSONObject(params[1]);
                     String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("name"), "UTF-8");
                     data += "&" + URLEncoder.encode("birth", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("birth"), "UTF-8");
@@ -229,13 +216,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     URLConnection conn = url.openConnection();
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    Log.i("eundddo_13_1sb", data);
+                    Log.i("LOG_13_1sb", data);
 
                     wr.write(data);
-                    Log.i("eundddo_13_2sb", wr.toString());
+                    Log.i("LOG_13_2sb", wr.toString());
                     wr.flush();
                     bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-                    Log.i("eundddo_13_3sb", bufferedReader.readLine());
+                    Log.i("LOG_13_3sb", bufferedReader.readLine());
 
                     String line = null;
                     // Read Server Response
@@ -243,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sb.append(line);
                         break;
                     }
-                    Log.i("eundddo_13_4sb", sb.toString());
+                    Log.i("LOG_13_4sb", sb.toString());
                     return sb.toString();
 
                 } catch (Exception e) {
@@ -253,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected void onPostExecute(String result) {
-                Log.i("eundddo_14Post", result);
+                Log.i("LOG_14Post", result);
 
                 if (result.contains("already")) {
                     Intent showIntent = new Intent(MainActivity.this, ShowPatientActivity.class);
@@ -263,18 +250,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(getApplicationContext(), "추가완료", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, MainActivity.class));
+
                 }
 
 
             }
         }
-        Log.i("eundddo_9stinserturl", url);
+        Log.i("LOG_9stinserturl", url);
         insertData g = new insertData();
         g.execute(url, patient_JSON);
-        Log.i("eundddo_10patient_JSON", patient_JSON);
+        Log.i("LOG_10patient_JSON", patient_JSON);
     }
 
     protected void showList() {
+        Log.i("LOG_", "showList");
         try {
             jsonObj = new JSONObject(myJSON);
             contents = jsonObj.getJSONArray("result");
@@ -285,13 +274,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String name = c.getString("name");
                 String birth = c.getString("birth");
                 String sex = c.getString("sex");
+                String image = c.getString("image");
                 String phone = c.getString("phone");
                 String enterdate = c.getString("enterdate");
-                String image = c.getString("image");
                 String channel = c.getString("channel");
                 String port = c.getString("port");
 
-                items.add(new Item_Main(name, birth, sex, enterdate, phone, R.mipmap.mate_logo, channel, port));
+                items.add(new Item_Main(name, birth, sex, enterdate, phone, image, channel, port));
             }
             recyclerAdapter = new RecyclerAdapter(this, items, this);
             recyclerView.setAdapter(recyclerAdapter);

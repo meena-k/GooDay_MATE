@@ -140,8 +140,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\MINA\Desktop\mate_logo.png" />
-                                      <entry key="outputName" value="mate_logo" />
+                                      <entry key="imageAsset" value="C:\Users\MINA\Desktop\gday_mate_bottom.png" />
+                                      <entry key="outputName" value="mate_logo_bottom" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -151,7 +151,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>

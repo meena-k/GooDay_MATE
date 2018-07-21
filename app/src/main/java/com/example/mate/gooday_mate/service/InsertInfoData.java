@@ -1,4 +1,4 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.service;
 
 
 import android.app.ProgressDialog;

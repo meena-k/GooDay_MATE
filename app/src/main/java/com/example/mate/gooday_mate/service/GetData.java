@@ -1,4 +1,4 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.service;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -61,7 +61,7 @@ public class GetData {
                 String channel = c.getString("channel");
                 String port = c.getString("port");
 
-                items.add(new Item_Main(name, birth, sex, enterdate, phone, R.mipmap.mate_logo, channel, port));
+               // items.add(new Item_Main(name, birth, sex, enterdate, phone, R.mipmap.mate_logo, channel, port));
             }
             setItems(items);
         } catch (JSONException e) {

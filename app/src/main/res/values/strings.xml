@@ -2,7 +2,7 @@
     <string name="app_name">GooDay ; MATE</string>
     <string name="btn_negative_txt">취소</string>
     <string name="btn_positive_txt">확인</string>
-
+    <string name="submit">저장</string>
     <string name="refreshing">Refreshing</string>
     <string name="please_wait">Please wait</string>
 </resources>

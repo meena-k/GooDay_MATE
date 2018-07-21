@@ -1,4 +1,4 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.Fragment;
 
 
 import android.app.Activity;
@@ -10,6 +10,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.mate.gooday_mate.R;
 
 public class PatientDialogFragment extends DialogFragment {
     private static final String ARG_PARAM1 = "param1";

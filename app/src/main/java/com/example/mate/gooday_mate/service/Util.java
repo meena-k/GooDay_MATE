@@ -1,25 +1,23 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.service;
 
 import android.content.Context;
-import android.net.Uri;
+import android.os.StrictMode;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
+import java.util.List;
 
 /* Handles basic helper functions used throughout the app. */
 public class Util {
     private static AmazonS3Client sS3Client;
     private CognitoCachingCredentialsProvider sCredProvider;
     private TransferUtility sTransferUtility;
+    private boolean isDocument = false;
 
     /* Gets an instance of CognitoCachingCredentialsProvider which is constructed using the given Context. */
     private CognitoCachingCredentialsProvider getCredProvider(Context context) {
@@ -58,27 +56,22 @@ public class Util {
         return sTransferUtility;
     }
 
-    /* Copies the data from the passed in Uri, to a new file for use with the Transfer Service */
+    public boolean getDocumentList(String birth, String document) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-    public File copyContentUriToFile(Context context, Uri uri) throws IOException {
+        // The list of objects we find in the S3 bucket
+        List<S3ObjectSummary> s3ObjList;
 
-        InputStream is = context.getContentResolver().openInputStream(uri);
-        File copiedData = new File(context.getDir("SampleImagesDir", Context.MODE_PRIVATE), UUID
-                .randomUUID().toString());
-        copiedData.createNewFile();
+        s3ObjList = sS3Client.listObjects(Config.BUCKET_NAME, birth + "/").getObjectSummaries();
 
-        FileOutputStream fos = new FileOutputStream(copiedData);
-        byte[] buf = new byte[2046];
-        int read = -1;
-        while ((read = is.read(buf)) != -1) {
-            fos.write(buf, 0, read);
+        for (S3ObjectSummary summary : s3ObjList) {
+            if (summary.getKey().equals(birth + "/image.jpg")) {
+                isDocument = true;
+                break;
+            }
         }
-
-        fos.flush();
-        fos.close();
-
-        return copiedData;
+        return isDocument;
     }
-
 
 }

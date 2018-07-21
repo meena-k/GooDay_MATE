@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context="com.example.mate.gooday_mate.PatientDialogFragment">
+    tools:context="com.example.mate.gooday_mate.Fragment.PatientDialogFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -2,76 +2,118 @@ package com.example.mate.gooday_mate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.example.mate.gooday_mate.Fragment.TabbedDialog;
+import com.example.mate.gooday_mate.service.Config;
+import com.example.mate.gooday_mate.service.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowPatientActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /* Upload/Download to S3 */
+    private TransferUtility transferUtility;
+    private Util util;
+    private File file;
+    private Bitmap bitmap;
+
     JSONArray contents = null;
     private JSONObject jsonObj;
-    private String patientJSON;
-
+    private String patientJSON, patient_name, patient_img, patient_birth;
+    TextView textview;
     CircleImageView imgPatient;
-    private String patient_name, patient_birth, patient_dateIn, patient_dateOut, patient_guardian, channel, port;
-    TextView name, txtBirth, txtDisease, txtDateIn, txtDateOut, txtGuardian;
+
     TabbedDialog tabbedDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_patient);
+        util = new Util();
+        transferUtility = util.getTransferUtility(this);
         initViews();
     }
 
     private void initViews() {
+        //***Json 값에 따라 TextView Setting***//
+        int resId;
+        String key, value;
+
+        imgPatient = findViewById(R.id.image);
+        findViewById(R.id.btn_meal).setOnClickListener(this);
+        findViewById(R.id.btn_treatment).setOnClickListener(this);
+        findViewById(R.id.btn_document).setOnClickListener(this);
+        imgPatient.setOnClickListener(this);
+
         Intent intent = getIntent();
         patientJSON = intent.getStringExtra("patientJSON");
 
         try {
-            jsonObj = new JSONObject(patientJSON);
-            contents = jsonObj.getJSONArray("result");
-            patient_name = contents.getJSONObject(0).getString("name");
-            patient_birth = contents.getJSONObject(0).getString("birth");
-            patient_dateIn = contents.getJSONObject(0).getString("enterdate");
-            patient_dateOut = contents.getJSONObject(0).getString("outdate");
-            patient_guardian = contents.getJSONObject(0).getString("guardian");
-            channel = contents.getJSONObject(0).getString("channel");
-            port = contents.getJSONObject(0).getString("port");
+            jsonObj = new JSONObject(patientJSON);//json String을 JSONObject로 변환
+            contents = jsonObj.getJSONArray("result");//
+            JSONObject jo = (JSONObject) contents.get(0);
+            patient_name = jo.getString("name");
+            patient_img = jo.getString("image");
+            patient_birth = jo.getString("birth");
+            Log.i("LOG_", patient_name + ":" + patient_birth);
+            Log.i("LOG_", patient_img);
+            Config.KEY_BIRTH = jo.getString("birth");
+            Iterator key_iteraotr = jo.keys();//
+
+
+            if (!patient_img.contains(patient_birth)) {
+                imgPatient.setImageResource(R.mipmap.ic_patient);
+            } else {
+                imgPatient.setImageBitmap(BitmapFactory.decodeFile(patient_img));
+            }
+
+            while (key_iteraotr.hasNext()) {
+                key = key_iteraotr.next().toString();
+                value = jo.getString(key);
+                resId = getResources().getIdentifier(key, "id", "com.example.mate.gooday_mate");
+
+                //DB 값이 null 일때
+                if (value.trim().equals("null") || value.trim().equals("")) {
+                    textview = findViewById(resId);
+                    textview.setText("진료탭을 통하여 내용을 채워주세요");
+                }
+                //DB 값이 있을 때
+                else {
+                    if (resId == 0 || key.equals("image"))
+                        continue;
+                    textview = findViewById(resId);
+                    textview.setText(value);
+                }
+            }
 
         } catch (JSONException e) {
+            Log.i("LOG_", e.getMessage());
             e.printStackTrace();
         }
 
-
-        name = findViewById(R.id.name);
-        imgPatient = findViewById(R.id.image);
-        txtBirth = findViewById(R.id.txt_birth);
-        txtDisease = findViewById(R.id.txt_disease);
-        txtDateIn = findViewById(R.id.txt_date_in);
-        txtDateOut = findViewById(R.id.txt_date_out);
-        txtGuardian = findViewById(R.id.txt_guardian);
-
-        name.setText(patient_name);
-        txtBirth.setText(patient_birth);
-        txtDateIn.setText(patient_dateIn);
-        txtDateOut.setText(patient_dateOut);
-        txtGuardian.setText(patient_guardian);
-
-        imgPatient.setOnClickListener(this);
-        findViewById(R.id.btn_meal).setOnClickListener(this);
-        findViewById(R.id.btn_treatment).setOnClickListener(this);
-        findViewById(R.id.btn_document).setOnClickListener(this);
         tabbedDialog = new TabbedDialog();
     }
 
@@ -79,7 +121,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.image:
-                //이미지 확대
                 break;
 
             case R.id.btn_meal:
@@ -96,6 +137,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.btn_treatment:
                 // 환자 추가 정보 업로드 액티비티
+                startActivity(new Intent(this, TreatmentActivity.class));
                 break;
 
             case R.id.btn_document:
@@ -119,6 +161,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
                                 break;
                         }
                         viewIntent.putExtra("name", patient_name);
+                        viewIntent.putExtra("birth", patient_birth);
                         startActivity(viewIntent);
                     }
                 })
@@ -127,7 +170,24 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
                 break;
         }
+
     }
 
+    public void uploadFile(Uri fileUri) {
+        if (fileUri == null) {
+            Toast.makeText(this, "Could not find the filepath of the selected file", Toast.LENGTH_LONG).show();
+            return;
+        }
+        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/image.jpg");
+        transferUtility.upload(Config.BUCKET_NAME + "/" + patient_birth, file.getName(), file);
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+            getContentResolver().delete(fileUri, null, null);
+            imgPatient.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

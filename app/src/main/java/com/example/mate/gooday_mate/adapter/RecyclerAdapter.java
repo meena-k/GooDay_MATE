@@ -1,12 +1,16 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.mate.gooday_mate.R;
+import com.example.mate.gooday_mate.service.Item_Main;
 
 import java.util.ArrayList;
 
@@ -63,7 +67,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         public void setData(Item_Main item) {
             this.item = item;
-            patient_img.setImageResource(item.getImg());
+            if (!item.getImg().contains(item.getBirth())) {
+                patient_img.setImageResource(R.mipmap.ic_patient);
+            } else {
+                //    patient_img.setImageBitmap(BitmapFactory.decodeFile("/storage/emulated/0/1972.03.01/image.jpg"));
+                patient_img.setImageBitmap(BitmapFactory.decodeFile(item.getImg()));
+            }
             user_name.setText(item.getName());
         }
 
@@ -73,7 +82,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 mListener.onItemClick(item);
             }
         }
-
-
     }
+
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SplashActivity">
+
+    <ImageView
+        android:id="@+id/splash_image_top"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="130dp"
+        android:layout_x="2dp"
+        android:layout_y="150dp"
+        android:src="@mipmap/mate_logo_top" />
+
+    <ImageView
+        android:id="@+id/splash_image_mid"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_x="0dp"
+        android:layout_y="179dp"
+        android:src="@mipmap/mate_logo_mid" />
+
+    <ImageView
+        android:id="@+id/splash_image_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_x="0dp"
+        android:layout_y="213dp"
+        android:src="@mipmap/mate_logo_bottom" />
+
+    <TextView
+        android:id="@+id/splash_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_x="0dp"
+        android:layout_y="312dp"
+        android:padding="10dp"
+        android:text="GooDay ; MATE"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+</AbsoluteLayout>

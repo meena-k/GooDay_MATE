@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="GooDay ; MATE!"
+            android:text="GooDay ; MATE !"
             android:textSize="30dp"
             android:textStyle="bold" />
 
@@ -59,23 +59,21 @@
 
         <ImageView
             android:id="@+id/ic_qr"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_meal" />
-
-        <ImageView
-            android:id="@+id/ic_map"
             android:layout_width="130dp"
             android:layout_height="110dp"
-            android:src="@mipmap/ic_meal" />
+            android:src="@mipmap/ic_qr" />
 
         <ImageView
-            android:id="@+id/ic_cam"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_meal" />
+            android:id="@+id/ic_search"
+            android:layout_width="130dp"
+            android:layout_height="110dp"
+            android:src="@mipmap/ic_search" />
+
+        <ImageView
+            android:id="@+id/ic_notice"
+            android:layout_width="130dp"
+            android:layout_height="110dp"
+            android:src="@mipmap/ic_notice" />
     </LinearLayout>
 
 </LinearLayout>

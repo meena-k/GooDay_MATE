@@ -1,4 +1,4 @@
-package com.example.mate.gooday_mate;
+package com.example.mate.gooday_mate.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.mate.gooday_mate.R;
+import com.example.mate.gooday_mate.adapter.CustomAdapter;
 
 public class TabbedDialog extends DialogFragment {
     // 식사 / 약 tab이 있는 다이얼로그
