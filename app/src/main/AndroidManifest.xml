@@ -39,6 +39,9 @@
         <activity android:name=".TreatmentActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".NoticeActivity" />
+        <activity
+            android:name=".PatientInfoDialogActivity"
+            android:theme="@style/DialogTheme"></activity>
     </application>
 
 </manifest>

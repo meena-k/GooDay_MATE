@@ -13,7 +13,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mate.gooday_mate.Fragment.PatientDialogFragment;
@@ -35,6 +37,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, RecyclerAdapter.ItemListener, PatientDialogFragment.PatientDialogFragmentListener {
     String SHOWDATA_URL = Config.URL + "show_patient.php";
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         qrScan = new IntentIntegrator(this);
 
         findViewById(R.id.manager).setOnClickListener(this);
-        findViewById(R.id.addpatient).setOnClickListener(this);
+        findViewById(R.id.search_patient).setOnClickListener(this);
         findViewById(R.id.ic_qr).setOnClickListener(this);
         findViewById(R.id.ic_search).setOnClickListener(this);
         findViewById(R.id.ic_notice).setOnClickListener(this);
@@ -89,18 +92,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialog = managerbuilder.create();
                 alertDialog.show();
                 break;
-            case R.id.addpatient:
+            case R.id.search_patient:
+                LayoutInflater inflater = getLayoutInflater();
+
+                final View dialogView = inflater.inflate(R.layout.dialog2, null);
                 AlertDialog.Builder addbuilder = new AlertDialog.Builder(this);
-                addbuilder.setTitle("Health Life Care System");
-                addbuilder.setMessage("환자 추가 - QR코드를 준비해주세요");
+                addbuilder.setView(dialogView);
                 addbuilder.setNegativeButton("취소", null);
-                addbuilder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
+                addbuilder.setPositiveButton("검색", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        //scan option
-                        qrScan.setPrompt("Scanning...");
-                        qrScan.initiateScan();
-                        //qrScan.setOrientationLocked(false);
+                        EditText edit_name = dialogView.findViewById(R.id.name);
+                        EditText edit_birth = dialogView.findViewById(R.id.birth);
+
+                        HashMap<String, String> patientMap = new HashMap<>();
+                        patientMap.put("name", edit_name.getText().toString());
+                        patientMap.put("birth", edit_birth.getText().toString());
+                        Intent intent = new Intent(MainActivity.this, PatientInfoDialogActivity.class);
+                        intent.putExtra("patientMap", patientMap);
+                        startActivity(intent);
                     }
                 });
                 alertDialog = addbuilder.create();
@@ -250,10 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(getApplicationContext(), "추가완료", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, MainActivity.class));
-
                 }
-
-
             }
         }
         Log.i("LOG_9stinserturl", url);

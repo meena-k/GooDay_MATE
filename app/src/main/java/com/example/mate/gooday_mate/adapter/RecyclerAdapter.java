@@ -1,7 +1,6 @@
 package com.example.mate.gooday_mate.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +66,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         public void setData(Item_Main item) {
             this.item = item;
-            if (!item.getImg().contains(item.getBirth())) {
-                patient_img.setImageResource(R.mipmap.ic_patient);
-            } else {
-                //    patient_img.setImageBitmap(BitmapFactory.decodeFile("/storage/emulated/0/1972.03.01/image.jpg"));
-                patient_img.setImageBitmap(BitmapFactory.decodeFile(item.getImg()));
+            if (item.getBirth().contains("1965")) {
+                patient_img.setImageResource(R.mipmap.ic_1965);
+            } else if (item.getBirth().contains("1972")) {
+                patient_img.setImageResource(R.mipmap.ic_1972);
             }
             user_name.setText(item.getName());
         }
