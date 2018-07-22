@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mate.gooday_mate.Fragment.PatientDialogFragment;
-import com.example.mate.gooday_mate.adapter.RecyclerAdapter;
+import com.example.mate.gooday_mate.adapter.MainAdapter;
 import com.example.mate.gooday_mate.service.Config;
 import com.example.mate.gooday_mate.service.Item_Main;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -39,10 +39,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, RecyclerAdapter.ItemListener, PatientDialogFragment.PatientDialogFragmentListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainAdapter.ItemListener, PatientDialogFragment.PatientDialogFragmentListener {
     String SHOWDATA_URL = Config.URL + "show_patient.php";
     String CHECKDATA_URL = Config.URL + "patient_register.php";
-    RecyclerAdapter recyclerAdapter;
+    MainAdapter mainAdapter;
     private String patient_JSON = null;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return sb.toString();
 
                 } catch (Exception e) {
+                    Log.i("LOG_Exception", e.getMessage());
                     return null;
                 }
             }
@@ -287,14 +288,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String channel = c.getString("channel");
                 String port = c.getString("port");
 
-                items.add(new Item_Main(name, birth, sex, enterdate, phone, image, channel, port));
+                items.add(new Item_Main(name, birth, sex, enterdate, phone, getId(image), channel, port));
             }
-            recyclerAdapter = new RecyclerAdapter(this, items, this);
-            recyclerView.setAdapter(recyclerAdapter);
+            mainAdapter = new MainAdapter(this, items, this);
+            recyclerView.setAdapter(mainAdapter);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private int getId(String name) {
+        int tempId = getResources().getIdentifier(name, "mipmap", this.getPackageName());
+        return tempId;
     }
 
     //Getting the scan results

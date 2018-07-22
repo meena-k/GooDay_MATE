@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.example.mate.gooday_mate.service.Config;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -21,14 +25,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.Iterator;
 
 
 public class TreatmentActivity extends AppCompatActivity implements View.OnClickListener {
     String CHECKDATA_URL = Config.URL + "update_patient.php";
-    TextView outdate;
-    EditText edit_disease, edit_guardian, edit_caution;
-    Button submit_btn;
+    EditText edit_disease, edit_guardian, edit_caution, editText;
+    TextView outdate, textview;
     String image, disease, guardian, caution;
+    Button submit_btn;
+    private String intentJSON;
+    private JSONObject jsonObj;
+    JSONArray contents = null;
     Calendar dateAndTime = Calendar.getInstance();
 
     @Override
@@ -39,13 +47,50 @@ public class TreatmentActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        edit_disease = findViewById(R.id.edit_disease);
-        edit_guardian = findViewById(R.id.edit_guardian);
-        edit_caution = findViewById(R.id.edit_caution);
+        String key, value;
+        int resId;
+        intentJSON = getIntent().getStringExtra("treatmentJSON");//DB값
+
+        edit_disease = findViewById(R.id.disease);
+        edit_guardian =  findViewById(R.id.guardian);
+        edit_caution =  findViewById(R.id.caution);
         outdate = findViewById(R.id.outdate);
         outdate.setOnClickListener(this);
         findViewById(R.id.submit_btn).setOnClickListener(this);
+
+        try {
+            jsonObj = new JSONObject(intentJSON);//json String을 JSONObject로 변환
+
+            contents = jsonObj.getJSONArray("result");//
+            JSONObject jo = (JSONObject) contents.get(0);
+            Log.i("eunjin_jsonOb", jo.toString());
+
+            Iterator key_iteraotr = jo.keys();
+
+            while (key_iteraotr.hasNext()) {
+                key = key_iteraotr.next().toString();
+                value = jo.getString(key);
+                resId = getResources().getIdentifier(key, "id", "com.example.mate.gooday_mate");
+                Log.i("tmt_elsewhile", key + "::" + String.valueOf(resId));
+
+                if (value.trim().equals("") || resId == 0 || resId == R.id.image)//null이거나 layout에 R.id 존재하지 않을 때
+                {
+                    Log.i("tmt_if", key + "::" + String.valueOf(resId));
+                    continue;
+                } else if (resId == R.id.disease || resId == R.id.caution || resId == R.id.guardian) {
+                    editText = findViewById(resId);
+                    editText.setText(value);
+                } else {
+                    textview = (TextView) findViewById(resId);
+                    textview.setText(value);
+
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -64,13 +109,12 @@ public class TreatmentActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             protected String doInBackground(String... params) {
-                String disease = (String) params[0];
-                String caution = (String) params[1];
-                String guardian = (String) params[2];
-                String outdate = (String) params[3];
+                String disease = params[0];
+                String caution = params[1];
+                String guardian = params[2];
+                String outdate = params[3];
 
                 try {
-                    Log.i("eundddo_12doI", params[1]);
                     String data = URLEncoder.encode("birth", "UTF-8") + "=" + URLEncoder.encode(Config.KEY_BIRTH, "UTF-8");
                     data += "&" + URLEncoder.encode("disease", "UTF-8") + "=" + URLEncoder.encode(disease, "UTF-8");
                     data += "&" + URLEncoder.encode("caution", "UTF-8") + "=" + URLEncoder.encode(caution, "UTF-8");

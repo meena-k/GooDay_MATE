@@ -1,9 +1,10 @@
 package com.example.mate.gooday_mate.service;
 
 public class Item_Main {
-    private String name, birth, sex, enterdate, phone, img, channel, port;
+    private String name, birth, sex, enterdate, phone, channel, port;
+    private int img;
 
-    public Item_Main(String name, String birth, String sex, String enterdate, String phone, String img, String channel, String port) {
+    public Item_Main(String name, String birth, String sex, String enterdate, String phone, int img, String channel, String port) {
         setName(name);
         setBirth(birth);
         setSex(sex);
@@ -55,11 +56,11 @@ public class Item_Main {
         this.phone = phone;
     }
 
-    public String getImg() {
+    public int getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(int img) {
         this.img = img;
     }
 

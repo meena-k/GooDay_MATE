@@ -41,7 +41,8 @@
         <activity android:name=".NoticeActivity" />
         <activity
             android:name=".PatientInfoDialogActivity"
-            android:theme="@style/DialogTheme"></activity>
+            android:theme="@style/DialogTheme" />
+        <activity android:name=".ViewNoticeActivity"></activity>
     </application>
 
 </manifest>

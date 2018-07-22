@@ -13,12 +13,12 @@ import com.example.mate.gooday_mate.service.Item_Main;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Item_Main> itemList;
     protected ItemListener mListener;
 
-    public RecyclerAdapter(Context context, ArrayList<Item_Main> itemList, ItemListener mListener) {
+    public MainAdapter(Context context, ArrayList<Item_Main> itemList, ItemListener mListener) {
         this.context = context;
         this.itemList = itemList;
         this.mListener = mListener;
@@ -59,20 +59,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             patient_img = view.findViewById(R.id.img);
             user_name = view.findViewById(R.id.name);
-
             view.setOnClickListener(this);
 
         }
 
         public void setData(Item_Main item) {
             this.item = item;
-            if (item.getBirth().contains("1965")) {
-                patient_img.setImageResource(R.mipmap.ic_1965);
-            } else if (item.getBirth().contains("1972")) {
-                patient_img.setImageResource(R.mipmap.ic_1972);
-            }
+            patient_img.setImageResource(item.getImg());
             user_name.setText(item.getName());
         }
+
 
         @Override
         public void onClick(View view) {

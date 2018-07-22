@@ -36,7 +36,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
     JSONArray contents = null;
     private JSONObject jsonObj;
-    private String patientJSON, patient_name, patient_img, patient_birth;
+    private String patientJSON, patient_name, patient_img, patient_birth, treatmentJSON;
     TextView textview;
     CircleImageView imgPatient;
 
@@ -63,6 +63,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
         Intent intent = getIntent();
         patientJSON = intent.getStringExtra("patientJSON");
+        treatmentJSON = patientJSON;
 
         try {
             jsonObj = new JSONObject(patientJSON);//json String을 JSONObject로 변환
@@ -76,11 +77,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             Config.KEY_BIRTH = jo.getString("birth");
             Iterator key_iteraotr = jo.keys();//
 
-            if (patient_img.contains("1965")) {
-                imgPatient.setImageResource(R.mipmap.ic_1965);
-            } else if (patient_img.contains("1972")) {
-                imgPatient.setImageResource(R.mipmap.ic_1972);
-            }
+            imgPatient.setImageResource(getResources().getIdentifier(patient_img, "mipmap", this.getPackageName()));
 
             while (key_iteraotr.hasNext()) {
                 key = key_iteraotr.next().toString();
@@ -130,8 +127,9 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.btn_treatment:
                 // 환자 추가 정보 업로드 액티비티
-                startActivity(new Intent(this, TreatmentActivity.class));
-                finish();
+                Intent intent = new Intent(this, TreatmentActivity.class);
+                intent.putExtra("treatmentJSON", treatmentJSON);
+                startActivity(intent);
                 break;
 
             case R.id.btn_document:
