@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dip"
+    android:layout_height="668dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.mate.gooday_mate.PatientInfoDialogActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#131547"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 님의 Health Care"
+                android:textColor="#131547"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_add"
+                app:civ_border_color="#FF000000" />
+
+            <ImageView
+                android:id="@+id/info_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_info" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="18dp">
+
+            <TextView
+                android:layout_width="88dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="생년월일"
+                android:textColor="#131547"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#171f3f"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <!-- 환자 정보 : 핸드폰 -->
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="18dp">
+
+            <TextView
+                android:layout_width="88dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="핸드폰 번호"
+                android:textColor="#131547"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:textColor="#171f3f"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:id="@+id/phone_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_call" />
+
+            <ImageView
+                android:id="@+id/message_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="7dp"
+                android:src="@mipmap/ic_text" />
+
+        </LinearLayout>
+        <!-- 환자 정보 : 병명 -->
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="18dp">
+
+            <TextView
+                android:layout_width="88dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="병명"
+                android:textColor="#131547"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/disease"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#171f3f"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/chart_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <WebView
+            android:id="@+id/chart_pulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
