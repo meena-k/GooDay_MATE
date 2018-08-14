@@ -5,4 +5,26 @@
     <string name="submit">저장</string>
     <string name="refreshing">Refreshing</string>
     <string name="please_wait">Please wait</string>
+
+    <!-- EMRActivity : Treat Radio Btn -->
+    <string name="treatBtn1">입원</string>
+    <string name="treatBtn2">퇴원</string>
+    <string name="treatBtn3">외래</string>
+    <string name="treatBtn4">촉탁의</string>
+
+    <!-- EMRActivity : Residence Radio Btn -->
+    <string name="residence1">면회</string>
+    <string name="residence2">외출</string>
+    <string name="residence3">외박</string>
+
+    <!-- EMRActivity : Meal Radio Btn -->
+    <string name="meal1">일반식</string>
+    <string name="meal2">연식</string>
+    <string name="meal3">경관식</string>
+    <string name="meal4">당뇨식</string>
+    <string name="meal5">저염식</string>
+    <string name="meal6">유동식</string>
+    <string name="meal7">다진식</string>
+    <string name="meal8">기타</string>
+
 </resources>

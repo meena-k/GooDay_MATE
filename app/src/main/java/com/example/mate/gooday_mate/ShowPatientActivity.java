@@ -2,41 +2,30 @@ package com.example.mate.gooday_mate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.example.mate.gooday_mate.Fragment.TabbedDialog;
 import com.example.mate.gooday_mate.service.Config;
-import com.example.mate.gooday_mate.service.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowPatientActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /* Upload/Download to S3 */
-    private TransferUtility transferUtility;
-    private Util util;
-    private File file;
-    private Bitmap bitmap;
-
     JSONArray contents = null;
     private JSONObject jsonObj;
-    private String patientJSON, patient_name, patient_img, patient_birth, treatmentJSON;
+    private String patientJSON, patient_name, patient_img, patient_birth, emrJSON;
     TextView textview;
     CircleImageView imgPatient;
 
@@ -46,8 +35,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_patient);
-        util = new Util();
-        transferUtility = util.getTransferUtility(this);
         initViews();
     }
 
@@ -63,7 +50,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
         Intent intent = getIntent();
         patientJSON = intent.getStringExtra("patientJSON");
-        treatmentJSON = patientJSON;
+        emrJSON = patientJSON;
 
         try {
             jsonObj = new JSONObject(patientJSON);//json String을 JSONObject로 변환
@@ -72,8 +59,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             patient_name = jo.getString("name");
             patient_img = jo.getString("image");
             patient_birth = jo.getString("birth");
-            Log.i("LOG_", patient_name + ":" + patient_birth);
-            Log.i("LOG_", patient_img);
             Config.KEY_BIRTH = jo.getString("birth");
             Iterator key_iteraotr = jo.keys();//
 
@@ -91,8 +76,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
                 //DB 값이 있을 때
                 else if (resId != R.id.image) {
-                    Log.i("eunjin_else1", String.valueOf(key));
-                    Log.i("eunjin_else2", String.valueOf(value));
                     if (resId == 0 || key.equals("image"))
                         continue;
                     textview = findViewById(resId);
@@ -101,7 +84,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             }
 
         } catch (JSONException e) {
-            Log.i("LOG_", e.getMessage());
             e.printStackTrace();
         }
 
@@ -127,9 +109,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.btn_treatment:
                 // 환자 추가 정보 업로드 액티비티
-                Intent intent = new Intent(this, TreatmentActivity.class);
-                intent.putExtra("treatmentJSON", treatmentJSON);
-                startActivity(intent);
+                startActivity(new Intent(this, EMRActivity.class));
                 break;
 
             case R.id.btn_document:
@@ -164,5 +144,6 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+
 
 }

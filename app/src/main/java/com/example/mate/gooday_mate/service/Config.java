@@ -2,8 +2,8 @@ package com.example.mate.gooday_mate.service;
 
 public class Config {
     /* AWS EC2 */
-    public static final String URL = "http://ec2-13-209-76-165.ap-northeast-2.compute.amazonaws.com/";
-    public static final String SOCKET_URL = "192.168.110.39";
+    public static final String URL = "http://ec2-13-209-77-32.ap-northeast-2.compute.amazonaws.com/";
+    public static final String RASPI_URL = "http://192.168.130.54/UploadToServer.php";
     public static String manager_name;
     public static String KEY_BIRTH;
     public static String PATIENT_NAME;

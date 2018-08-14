@@ -1,0 +1,1520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:scrollbars="vertical"
+    tools:context=".EMRActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 일시 && 작성자 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="일시"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:inputType="date"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="작성자"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/writer"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <!-- 진료 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="2"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="진료"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/treatBtns"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/treatBtn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/treatBtn1" />
+
+                <RadioButton
+                    android:id="@+id/treatBtn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/treatBtn2" />
+
+                <RadioButton
+                    android:id="@+id/treatBtn3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/treatBtn3" />
+
+                <RadioButton
+                    android:id="@+id/treatBtn4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/treatBtn4" />
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:id="@+id/treatLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="병원명"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/hospitalNm"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="시간"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/treatTime"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:inputType="time"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 거주 -->
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="2"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="거주"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/residenceBtns"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/residence1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/residence1" />
+
+                <RadioButton
+                    android:id="@+id/residence2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/residence2" />
+
+                <RadioButton
+                    android:id="@+id/residence3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/residence3" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/residenceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="면회자"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/visitorNm"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="시간"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/visitTime"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:inputType="time"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 영양관련 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="3"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="영양관련"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:background="@drawable/layout_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:text="식이내용 변경시만 아래 체크 및 사유 기입하시고, 물은 수시 제공해 주세요." />
+
+                <RadioGroup
+                    android:id="@+id/mealBtns_1"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/meal1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal1" />
+
+                    <RadioButton
+                        android:id="@+id/meal2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal2" />
+
+                    <RadioButton
+                        android:id="@+id/meal3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal3" />
+
+                    <RadioButton
+                        android:id="@+id/meal4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal4" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/mealBtns_2"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/meal5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal5" />
+
+                    <RadioButton
+                        android:id="@+id/meal6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal6" />
+
+                    <RadioButton
+                        android:id="@+id/meal7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal7" />
+
+                    <RadioButton
+                        android:id="@+id/meal8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="@string/meal8" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/mealLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="7dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="변경사유 : " />
+
+                    <EditText
+                        android:id="@+id/reasonMeal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="변경사유를 입력해주세요" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:text="조식"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/breakfastTxt"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:text="중식"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/lunchTxt"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:text="석식"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/dinnerTxt"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:text="간식"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/snackTxt"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="fill"
+                    android:text="자립구분"
+                    android:textAlignment="center" />
+
+                <RadioGroup
+                    android:id="@+id/independentBtns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/independent1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="부분" />
+
+                    <RadioButton
+                        android:id="@+id/independent2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="완전보조" />
+
+                    <RadioButton
+                        android:id="@+id/independent13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타" />
+                </RadioGroup>
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 배설관련 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="5"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="배설관련"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/excretions"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/urine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="소변" />
+
+                <TextView
+                    android:id="@+id/urineTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="용량"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/feces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="대변" />
+
+                <SeekBar
+                    android:id="@+id/fecesSeekBar"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="4"
+                    android:progress="2" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/excretionBtns"
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/excretion1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="정상" />
+
+
+                <RadioButton
+                    android:id="@+id/excretion2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="설사" />
+
+                <RadioButton
+                    android:id="@+id/excretion3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="변비" />
+
+                <RadioButton
+                    android:id="@+id/excretion4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="지림" />
+
+                <RadioButton
+                    android:id="@+id/excretion5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="좌약" />
+
+                <RadioButton
+                    android:id="@+id/excretion6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="혈변" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="의복" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="상" />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="하" />
+                    </LinearLayout>
+
+
+                    <RadioButton
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="시트" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="반" />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="대" />
+                    </LinearLayout>
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:gravity="fill"
+                    android:text="시간"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/excretionTimeTxt"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:inputType="time"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="저장하기" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="fill"
+                    android:text="변비일수"
+                    android:textAlignment="center" />
+
+                <RadioGroup
+                    android:id="@+id/constipationBtns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/constipation1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="부분" />
+
+                    <RadioButton
+                        android:id="@+id/constipation2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="용변보조" />
+
+                    <RadioButton
+                        android:id="@+id/constipation3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="완전보조" />
+                </RadioGroup>
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 욕창 및 상처 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="2"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="욕창 및 상처"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border">
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="fill"
+                        android:text="이상유무"
+                        android:textAlignment="center"
+                        android:textSize="15dp" />
+
+                    <Switch
+                        android:id="@+id/isBedsore"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:gravity="fill"
+                    android:text="부위"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bedsore"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:gravity="fill"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bedsoreLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="조치사항"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bedsoreTxt"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 체위 변경 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="4"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="체위변경"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="시간"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/changeDirectionTime"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:inputType="time"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="서명"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/directionBtns"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/direction1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="양와위" />
+
+                <RadioButton
+                    android:id="@+id/direction2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="복와위" />
+
+                <RadioButton
+                    android:id="@+id/direction3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="우측와위" />
+
+                <RadioButton
+                    android:id="@+id/direction4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좌측와위" />
+
+                <RadioButton
+                    android:id="@+id/direction5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="앉기" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="욕창쿠션" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="마사지" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="통풍" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="기타" />
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 목욕 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="9"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="목욕"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/bathBtns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:orientation="horizontal"
+                    android:paddingLeft="60dp">
+
+                    <RadioButton
+                        android:id="@+id/bath1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingRight="60dp"
+                        android:text="부분" />
+
+                    <RadioButton
+                        android:id="@+id/bath2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="완전" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <!-- 목욕 : 혈압 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="혈압"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfBloodPrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="3"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="mmHg  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftBloodPrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="3"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="mmHg"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <!-- 목욕 : 체온 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="체온"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="3"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="℃  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftTmp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="3"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=" ℃"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <!-- 목욕 : 안색 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="안색"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfComplextion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftComplextio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+            </LinearLayout>
+
+            <!-- 목욕 :  입술-->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="입술"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfLip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftLip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+            </LinearLayout>
+
+            <!-- 목욕 : 손발톱 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="손발톱"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfNail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftNail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+            </LinearLayout>
+
+            <!-- 목욕 :  인지 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="인지"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bfRecogn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="  - > "
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/aftRecogn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ems="4" />
+
+            </LinearLayout>
+
+
+            <!-- 목욕 : 비고 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:text="비고"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/bathTxt"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 개인 위생 관리 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="5"
+                android:background="@drawable/layout_border"
+                android:gravity="center"
+                android:text="개인 위생 관리"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/cleanBtns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:orientation="horizontal"
+                    android:paddingLeft="60dp">
+
+                    <RadioButton
+                        android:id="@+id/clean1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingRight="60dp"
+                        android:text="부분" />
+
+                    <RadioButton
+                        android:id="@+id/clean2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="완전" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <!--개인위생관리 : 세면 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="fill"
+                    android:text="세면"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <CheckBox
+                    android:id="@+id/washFace1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아침" />
+
+                <CheckBox
+                    android:id="@+id/washFace2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점심" />
+
+                <CheckBox
+                    android:id="@+id/washFace3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁" />
+
+                <CheckBox
+                    android:id="@+id/washFace4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기타" />
+
+            </LinearLayout>
+
+            <!--개인위생관리 : 발닦기 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="fill"
+                    android:text="발닦기"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <CheckBox
+                    android:id="@+id/washFoot1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아침" />
+
+                <CheckBox
+                    android:id="@+id/washFoot2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점심" />
+
+                <CheckBox
+                    android:id="@+id/washFoot3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁" />
+
+                <CheckBox
+                    android:id="@+id/washFoot4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기타" />
+            </LinearLayout>
+
+            <!--개인위생관리 : 침상욕 -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="fill"
+                    android:text="침상욕"
+                    android:textAlignment="center"
+                    android:textSize="15dp" />
+
+                <CheckBox
+                    android:id="@+id/cleanBed1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아침" />
+
+                <CheckBox
+                    android:id="@+id/cleanBed2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점심" />
+
+                <CheckBox
+                    android:id="@+id/cleanBed3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저녁" />
+
+                <CheckBox
+                    android:id="@+id/cleanBed4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기타" />
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- 프로그램 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="프로그램"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <EditText
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border" />
+        </LinearLayout>
+
+        <!-- 특이사항 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="특이사항"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <EditText
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border" />
+        </LinearLayout>
+
+        <!-- 야간 인수 인계 --><GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill"
+            android:layout_rowSpan="3"
+            android:background="@drawable/layout_border"
+            android:gravity="center"
+            android:text="야간 인수 인계"
+            android:textAlignment="center"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="18 ~ 22시"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/transferTxt1"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="22 ~ 02시"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/transferTxt2"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:text="02 ~ 06시"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/transferTxt3"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+    </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_negative_txt" />
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/submit" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

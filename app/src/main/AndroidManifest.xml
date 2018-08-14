@@ -3,15 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mate.gooday_mate">
 
+    <uses-sdk android:minSdkVersion="10" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.NTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission
+        android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        tools:ignore="ProtectedPermissions" />
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +52,10 @@
         <activity
             android:name=".PatientInfoDialogActivity"
             android:theme="@style/DialogTheme" />
-        <activity android:name=".ViewNoticeActivity"></activity>
+        <activity android:name=".ViewNoticeActivity" />
+        <activity android:name=".TreatmentImgDialogActivity" />
+        <activity android:name=".SendImgToRaspiActivity" />
+        <activity android:name=".EMRActivity" />
     </application>
 
 </manifest>

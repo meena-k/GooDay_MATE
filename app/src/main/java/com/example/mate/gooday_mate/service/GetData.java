@@ -9,9 +9,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.ArrayList;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by MINA on 2018-03-01.
@@ -19,87 +21,88 @@ import java.util.ArrayList;
 
 public class GetData {
     private static final String TAG = "GetData";
-    String DATA_URL = Config.URL + "show_patient.php";
-    ArrayList<Item_Main> items = new ArrayList<>();
-    JSONArray contents = null;
-    String myJSON;
+    String emrJsonString;
+    String date = new SimpleDateFormat("yyyy.MM.dd").format(new Date(System.currentTimeMillis()));
 
-    public GetData() {
+    public GetData(String getDATA_URL) {
+        Log.i("EMRActivity", "GetData : " );
         GetDataJSON g = new GetDataJSON();
-        g.execute(DATA_URL);
+        g.execute(getDATA_URL);
     }
 
-    public void setItems(ArrayList<Item_Main> items) {
-        this.items = items;
-        Log.i(TAG, "setItems" + this.items);
+    public String getJSON() {
+        return emrJsonString;
     }
 
-    public ArrayList<Item_Main> getItems() {
-        if (items != null) {
-            Log.i(TAG, "getItems1" + items);
-            return items;
-        } else {
-            return null;
-        }
-    }
+    private class GetDataJSON extends AsyncTask<String, Void, String> {
+        String errStr = null;
 
-    public void showList() {
-        try {
-
-            JSONObject jsonObj = new JSONObject(myJSON);
-            contents = jsonObj.getJSONArray("result");
-
-            for (int i = 0; i < contents.length(); i++) {
-                JSONObject c = contents.getJSONObject(i);
-                String id = c.getString("id");
-                String name = c.getString("name");
-                String birth = c.getString("birth");
-                String sex = c.getString("sex");
-                String phone = c.getString("phone");
-                String enterdate = c.getString("enterdate");
-                String image = c.getString("image");
-                String channel = c.getString("channel");
-                String port = c.getString("port");
-
-               // items.add(new Item_Main(name, birth, sex, enterdate, phone, R.mipmap.mate_logo, channel, port));
+        @Override
+        protected void onPostExecute(String result) {
+            if (result == null) {
+                Log.i("EMRActivity", "Sync Error " + errStr);
+            } else {
+                Log.i("EMRActivity", "onPostExecute " + emrJsonString);
+                emrJsonString = result;
             }
-            setItems(items);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-    }
-
-    class GetDataJSON extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-
+            Log.i("EMRActivity", "doInBackground : " );
             String uri = params[0];
+            String data = "birth=" + Config.KEY_BIRTH + "&date=" + date;
 
-            BufferedReader bufferedReader = null;
             try {
                 URL url = new URL(uri);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                URLConnection conn = url.openConnection();
+
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
                 StringBuilder sb = new StringBuilder();
+                String line = null;
 
-                bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-
-                String json;
-                while ((json = bufferedReader.readLine()) != null) {
-                    sb.append(json + "\n");
+                while ((line = bufferedReader.readLine()) != null) {
+                    Log.i("EMRLOG", line.toString());
+                    sb.append(line);
+                    break;
                 }
-
                 return sb.toString().trim();
 
             } catch (Exception e) {
+                errStr = e.toString();
                 return null;
             }
         }
 
-        @Override
-        protected void onPostExecute(String result) {
-            myJSON = result;
-            showList();
+    }
+
+    public void showResult() {
+        try {
+            JSONObject jsonObject = new JSONObject(emrJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject item = jsonArray.getJSONObject(i);
+                String id = item.getString("id");
+                String name = item.getString("name");
+                String birth = item.getString("birth");
+                String sex = item.getString("sex");
+                String phone = item.getString("phone");
+                String enterdate = item.getString("enterdate");
+                String image = item.getString("image");
+                String channel = item.getString("channel");
+                String port = item.getString("port");
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

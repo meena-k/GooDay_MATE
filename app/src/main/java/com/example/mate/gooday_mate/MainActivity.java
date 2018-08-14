@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.manager:
                 AlertDialog.Builder managerbuilder = new AlertDialog.Builder(this);
                 managerbuilder.setTitle("Smart Life Care 과정 1기 연수생");
-                managerbuilder.setMessage("    개발자 :     강은진     권미나     김정은 ");
+                managerbuilder.setMessage("    개발자      강은진 (kof2289@gmail.com)  \n    개발자      권미나 (kmeena0924@gmail.com)     ");
                 alertDialog = managerbuilder.create();
                 alertDialog.show();
                 break;
@@ -261,17 +261,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(getApplicationContext(), "추가완료", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    finish();
                 }
             }
         }
-        Log.i("LOG_9stinserturl", url);
         insertData g = new insertData();
         g.execute(url, patient_JSON);
-        Log.i("LOG_10patient_JSON", patient_JSON);
     }
 
     protected void showList() {
-        Log.i("LOG_", "showList");
         try {
             jsonObj = new JSONObject(myJSON);
             contents = jsonObj.getJSONArray("result");
