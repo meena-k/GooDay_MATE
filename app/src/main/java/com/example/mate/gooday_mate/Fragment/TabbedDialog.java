@@ -13,14 +13,14 @@ import com.example.mate.gooday_mate.R;
 import com.example.mate.gooday_mate.adapter.CustomAdapter;
 
 public class TabbedDialog extends DialogFragment {
-    // 식사 / 약 tab이 있는 다이얼로그
+    // 환자 정보 tab이 있는 다이얼로그
 
-    // 식사/약 탭
+    // 정보 탭
     TabLayout tabLayout;
 
     // 각각의 탭의 view
     ViewPager viewPager;
-    String patient_birth;
+    String patientJSON;
 
     @Override
     public void onStart() {
@@ -29,15 +29,15 @@ public class TabbedDialog extends DialogFragment {
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 800;
-        int dialogHeight = 900;
+        int dialogWidth = 900;
+        int dialogHeight = 1000;
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
     }
 
-    public void setPatient_Key(String patient_birth) {
-        this.patient_birth = patient_birth;
+    public void setPatientJSON(String patientJSON) {
+        this.patientJSON = patientJSON;
     }
 
     @Nullable
@@ -48,8 +48,8 @@ public class TabbedDialog extends DialogFragment {
         viewPager = rootview.findViewById(R.id.checkViewPager);
 
         CustomAdapter adapter = new CustomAdapter(getChildFragmentManager());
-        adapter.addFragment("식사", MealFragment.createInstance(patient_birth));
-        adapter.addFragment("약", PillFragment.createInstance(patient_birth));
+        adapter.addFragment("개인정보", InfoFragment.createInstance(patientJSON));
+        adapter.addFragment("질병정보", Info2Fragment.createInstance(patientJSON));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

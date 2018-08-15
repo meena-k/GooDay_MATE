@@ -36,14 +36,11 @@ public class EMRActivity extends AppCompatActivity implements View.OnClickListen
     String getDATA_URL = Config.URL + "getdata_emr.php";
 
     private String emrJsonString;
-    private JSONObject jsonObj;
-    JSONArray contents = null;
     int treat, residence, meal, independent;
     TextView date, writer, treatTime, visitTime;
     EditText hospitalNm, visitorNm, reasonMeal;
     RadioGroup treatBtns, residenceBtns, mealBtns_1, mealBtns_2, independentBtns;
     Switch isBedsore;
-    boolean isExist = false;
     final Calendar cal = Calendar.getInstance();
 
     @Override

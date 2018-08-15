@@ -17,15 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowPatientActivity extends AppCompatActivity implements View.OnClickListener {
 
-    JSONArray contents = null;
-    private JSONObject jsonObj;
-    private String patientJSON, patient_name, patient_img, patient_birth, emrJSON;
+    private String patientJSON, patient_name, patient_img;
     TextView textview;
     CircleImageView imgPatient;
 
@@ -39,49 +35,25 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initViews() {
-        //***Json 값에 따라 TextView Setting***//
-        int resId;
-        String key, value;
-
+        textview = findViewById(R.id.name);
         imgPatient = findViewById(R.id.image);
-        findViewById(R.id.btn_meal).setOnClickListener(this);
+
+        findViewById(R.id.btn_info).setOnClickListener(this);
         findViewById(R.id.btn_treatment).setOnClickListener(this);
         findViewById(R.id.btn_document).setOnClickListener(this);
 
         Intent intent = getIntent();
         patientJSON = intent.getStringExtra("patientJSON");
-        emrJSON = patientJSON;
 
         try {
-            jsonObj = new JSONObject(patientJSON);//json String을 JSONObject로 변환
-            contents = jsonObj.getJSONArray("result");//
-            JSONObject jo = (JSONObject) contents.get(0);
+            JSONObject jsonObject = new JSONObject(patientJSON);
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            JSONObject jo = (JSONObject) jsonArray.get(0);
             patient_name = jo.getString("name");
             patient_img = jo.getString("image");
-            patient_birth = jo.getString("birth");
             Config.KEY_BIRTH = jo.getString("birth");
-            Iterator key_iteraotr = jo.keys();//
-
+            textview.setText(patient_name);
             imgPatient.setImageResource(getResources().getIdentifier(patient_img, "mipmap", this.getPackageName()));
-
-            while (key_iteraotr.hasNext()) {
-                key = key_iteraotr.next().toString();
-                value = jo.getString(key);
-                resId = getResources().getIdentifier(key, "id", "com.example.mate.gooday_mate");
-
-                if (resId != R.id.image && (value.trim().equals("null") || value.trim().equals(""))) {
-                    textview = findViewById(resId);
-                    textview.setText("진료탭을 통하여 내용을 채워주세요");
-                }
-
-                //DB 값이 있을 때
-                else if (resId != R.id.image) {
-                    if (resId == 0 || key.equals("image"))
-                        continue;
-                    textview = findViewById(resId);
-                    textview.setText(value);
-                }
-            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -96,14 +68,14 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
             case R.id.image:
                 break;
 
-            case R.id.btn_meal:
+            case R.id.btn_info:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
                 if (prev != null) {
                     ft.remove(prev);
                 }
                 ft.addToBackStack(null);
-                tabbedDialog.setPatient_Key(patient_birth);
+                tabbedDialog.setPatientJSON(patientJSON);
                 tabbedDialog.show(ft, "dialog");
                 break;
 
@@ -133,7 +105,7 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
                                 break;
                         }
                         viewIntent.putExtra("name", patient_name);
-                        viewIntent.putExtra("birth", patient_birth);
+                        viewIntent.putExtra("birth", Config.KEY_BIRTH);
                         startActivity(viewIntent);
                     }
                 })
