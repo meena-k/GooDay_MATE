@@ -41,24 +41,32 @@ public class ShowPatientActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.btn_info).setOnClickListener(this);
         findViewById(R.id.btn_treatment).setOnClickListener(this);
         findViewById(R.id.btn_document).setOnClickListener(this);
+        /*Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                if (bundle.getString("url") != null) {
+                    bundle.getString("url");
+                }
+            }*/
 
-        Intent intent = getIntent();
-        patientJSON = intent.getStringExtra("patientJSON");
 
-        try {
-            JSONObject jsonObject = new JSONObject(patientJSON);
-            JSONArray jsonArray = jsonObject.getJSONArray("result");
-            JSONObject jo = (JSONObject) jsonArray.get(0);
-            patient_name = jo.getString("name");
-            patient_img = jo.getString("image");
-            Config.KEY_BIRTH = jo.getString("birth");
-            textview.setText(patient_name);
-            imgPatient.setImageResource(getResources().getIdentifier(patient_img, "mipmap", this.getPackageName()));
+        if (Config.KEY_BIRTH == null) {
+            Intent intent = getIntent();
+            patientJSON = intent.getStringExtra("patientJSON");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                JSONObject jsonObject = new JSONObject(patientJSON);
+                JSONArray jsonArray = jsonObject.getJSONArray("result");
+                JSONObject jo = (JSONObject) jsonArray.get(0);
+                patient_name = jo.getString("name");
+                patient_img = jo.getString("image");
+                Config.KEY_BIRTH = jo.getString("birth");
+                textview.setText(patient_name);
+                imgPatient.setImageResource(getResources().getIdentifier(patient_img, "mipmap", this.getPackageName()));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-
         tabbedDialog = new TabbedDialog();
     }
 

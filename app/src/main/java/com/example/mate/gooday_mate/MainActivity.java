@@ -22,6 +22,8 @@ import com.example.mate.gooday_mate.Fragment.PatientDialogFragment;
 import com.example.mate.gooday_mate.adapter.MainAdapter;
 import com.example.mate.gooday_mate.service.Config;
 import com.example.mate.gooday_mate.service.Item_Main;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i("LOG_onCreate", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+        FirebaseInstanceId.getInstance().getToken();
+
         initViews();
     }
 

@@ -235,6 +235,8 @@ public class TreatmentActivity extends AppCompatActivity implements View.OnClick
                 ;
 
                 break;
+
         }
     }
 }
+

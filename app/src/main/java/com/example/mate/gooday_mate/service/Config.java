@@ -7,7 +7,6 @@ public class Config {
     public static String manager_name;
     public static String KEY_BIRTH;
     public static String PATIENT_NAME;
-    public static String PATIENT_IMG;
     public static String PATIENT_PRES;
     public static String PATIENT_XRAY;
     public static String PATIENT_MRI;
