@@ -17,6 +17,10 @@ android {
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/java/service'] } }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -48,6 +52,9 @@ dependencies {
     implementation 'com.google.gms:google-services:3.1.1'
     implementation 'com.google.firebase:firebase-messaging:15.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    /* NFC */
+    implementation 'com.google.guava:guava:26.0-jre'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -231,11 +231,12 @@ public class ViewDocumentActivity extends AppCompatActivity implements View.OnCl
         List<S3ObjectSummary> s3ObjList;
 
         s3ObjList = s3.listObjects(Config.BUCKET_NAME, folder_birth + "/" + folder_document + "/").getObjectSummaries();
-
+        Log.i("LOG_", "Config.BUCKET_NAME:" + Config.BUCKET_NAME + "--- folder_birth(): " + folder_birth + "---- folder_document: " + folder_document);
 
         for (S3ObjectSummary summary : s3ObjList) {
             lastfile = new SimpleDateFormat("yyyy.MM.dd_hh:mm").format(summary.getLastModified());
         }
+        Log.i("LOG_", "lastfile:" + lastfile);
 
         if (!s3ObjList.isEmpty())
             isDocument = true;

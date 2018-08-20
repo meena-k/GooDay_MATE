@@ -30,9 +30,10 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 public class PatientInfoDialogActivity extends AppCompatActivity implements Button.OnClickListener {
-    private WebView chart_temp, chart_press, chart_pulse;
+    private WebView chart_temp, chart_pulse;
     String DATA_URL = Config.URL + "search_patient.php";
-    String name, birth, phone, disease, image, channel;
+    String name, birth, phone, disease, image;
+    String channel = "438457";
     TextView birthTxt, phoneTxt, diseaseTxt, nameTxt;
     String myJSON;
     JSONArray contents = null;
@@ -71,7 +72,6 @@ public class PatientInfoDialogActivity extends AppCompatActivity implements Butt
                 name = c.getString("name");
                 phone = c.getString("phone");
                 image = c.getString("image");
-                channel = c.getString("channel");
                 disease = c.getString("disease");
             }
         } catch (JSONException e) {

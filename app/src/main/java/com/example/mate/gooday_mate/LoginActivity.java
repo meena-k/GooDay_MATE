@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             //Saving values to editor
                             editor.commit();
 
+                           // new MateFirebaseInstanceIDService().onTokenRefresh();
+
                             //Starting profile activity
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);

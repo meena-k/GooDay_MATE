@@ -1,11 +1,16 @@
 package com.example.mate.gooday_mate;
 
 
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +63,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Item_Main> items = new ArrayList<>();
     String myJSON;
 
+
+    NfcAdapter mNfcAdapter; // NFC 어댑터
+    PendingIntent pIntent; // 수신받은 데이터가 저장된 인텐트
+    IntentFilter[] filters; // 인텐트 필터
+    byte[] payload; //NFC로부터 읽은 메시지
+    String nfcId;
+
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        Intent i = new Intent(this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pIntent = PendingIntent.getActivity(this, 0, i, 0);
+        IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            filter.addDataType("*/*");
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            e.printStackTrace();
+            throw new RuntimeException("fail", e);
+        }
+        filters = new IntentFilter[]{filter,};
+        mNfcAdapter.enableForegroundDispatch(this, pIntent, filters, null);
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        mNfcAdapter.disableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // TODO Auto-generated method stub
+        super.onNewIntent(intent);
+        setIntent(intent);
+        getNFCData(getIntent());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LOG_onCreate", "onCreate");
@@ -66,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
         FirebaseInstanceId.getInstance().getToken();
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
 
         initViews();
     }
@@ -99,6 +148,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialog.show();
                 break;
             case R.id.search_patient:
+                startActivity(new Intent(MainActivity.this, WriteAct.class));
+
+                break;
+            case R.id.ic_qr:
+                /*qrScan.setPrompt("Scanning...");
+                qrScan.initiateScan();큐알*/
+                AlertDialog.Builder insertbuilder = new AlertDialog.Builder(this);
+                insertbuilder.setTitle("GooDay;MATE");
+                insertbuilder.setMessage("NFC TAG를 가까이 위치해 주세요.");
+                alertDialog = insertbuilder.create();
+                alertDialog.show();
+                getNFCData(getIntent());
+                break;
+            case R.id.ic_search:
                 LayoutInflater inflater = getLayoutInflater();
 
                 final View dialogView = inflater.inflate(R.layout.dialog2, null);
@@ -121,13 +184,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 alertDialog = addbuilder.create();
                 alertDialog.show();
-                break;
-            case R.id.ic_qr:
-                qrScan.setPrompt("Scanning...");
-                qrScan.initiateScan();
-                break;
-            case R.id.ic_search:
-                //       startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
             case R.id.ic_notice:
                 startActivity(new Intent(MainActivity.this, NoticeActivity.class));
@@ -157,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showbuilder.setPositiveButton("현재상태 확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                String json = "{'name':'" + item.getName() + "','birth':'" + item.getBirth() + "','sex':'" + item.getSex() + "','phone':'" + item.getPhone() + "','enterdate':'" + item.getEnterdate() + "','image':'" + item.getImg() + "','channel':'" + item.getChannel() + "','port':'" + item.getPort() + "'}";
+                String json = "...{'name':'" + item.getName() + "','birth':'" + item.getBirth() + "','sex':'" + item.getSex() + "','phone':'" + item.getPhone() + "','enterdate':'" + item.getEnterdate() + "','image':'" + item.getImg() + "','uid':'" + item.getUid() + "'}";
                 insertToDatabase(CHECKDATA_URL, json);
             }
         });
@@ -165,6 +221,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alertDialog.show();
     }
 
+    private void getNFCData(Intent intent) {
+        System.out.println(getIntent().getAction());
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            Parcelable[] rawMsgs = intent
+                    .getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMsgs != null) {
+                NdefMessage[] messages = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    messages[i] = (NdefMessage) rawMsgs[i];
+                }
+                payload = messages[0].getRecords()[0].getPayload();
+                nfcId = new String(payload);
+                Log.i("LOGG", "태그 아이디 : " + nfcId);
+                insertToDatabase(CHECKDATA_URL, nfcId);
+            }
+        }
+    }
 
     @Override
     public void onPatientDialogClick(DialogFragment dialogFragment, String someData) {
@@ -218,16 +291,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
                     URL url = new URL(uri);
-                    Log.i("LOG_12doI", params[1]);
-                    jsonObj = new JSONObject(params[1]);
+                    jsonObj = new JSONObject(params[1].substring(3));
                     String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("name"), "UTF-8");
                     data += "&" + URLEncoder.encode("birth", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("birth"), "UTF-8");
                     data += "&" + URLEncoder.encode("sex", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("sex"), "UTF-8");
                     data += "&" + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("phone"), "UTF-8");
-                    data += "&" + URLEncoder.encode("enterdate", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("enterdate"), "UTF-8");
                     data += "&" + URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("image"), "UTF-8");
-                    data += "&" + URLEncoder.encode("channel", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("channel"), "UTF-8");
-                    data += "&" + URLEncoder.encode("port", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("port"), "UTF-8");
+                    data += "&" + URLEncoder.encode("enterdate", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("enterdate"), "UTF-8");
+                    data += "&" + URLEncoder.encode("uid", "UTF-8") + "=" + URLEncoder.encode(jsonObj.getString("uid"), "UTF-8");
 
                     URLConnection conn = url.openConnection();
                     conn.setDoOutput(true);
@@ -262,6 +333,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (result.contains("already")) {
                     Intent showIntent = new Intent(MainActivity.this, ShowPatientActivity.class);
                     String json = result.substring(14);
+                    Log.i("LOGG", "result : " + result);
+                    Log.i("LOGG", "json ,substring : " + json);
                     showIntent.putExtra("patientJSON", json);
                     startActivity(showIntent);
                 } else {
@@ -282,17 +355,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             for (int i = 0; i < contents.length(); i++) {
                 JSONObject c = contents.getJSONObject(i);
-                String id = c.getString("id");
                 String name = c.getString("name");
                 String birth = c.getString("birth");
                 String sex = c.getString("sex");
-                String image = c.getString("image");
                 String phone = c.getString("phone");
+                String image = c.getString("image");
                 String enterdate = c.getString("enterdate");
-                String channel = c.getString("channel");
-                String port = c.getString("port");
+                String uid = c.getString("uid");
 
-                items.add(new Item_Main(name, birth, sex, enterdate, phone, getId(image), channel, port));
+                items.add(new Item_Main(name, birth, sex, phone, getId(image), enterdate, uid));
             }
             mainAdapter = new MainAdapter(this, items, this);
             recyclerView.setAdapter(mainAdapter);
@@ -323,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

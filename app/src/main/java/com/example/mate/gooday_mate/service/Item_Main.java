@@ -1,18 +1,17 @@
 package com.example.mate.gooday_mate.service;
 
 public class Item_Main {
-    private String name, birth, sex, enterdate, phone, channel, port;
+    private String name, birth, sex, enterdate, phone, uid;
     private int img;
 
-    public Item_Main(String name, String birth, String sex, String enterdate, String phone, int img, String channel, String port) {
+    public Item_Main(String name, String birth, String sex, String phone, int img, String enterdate, String uid) {
         setName(name);
         setBirth(birth);
         setSex(sex);
-        setEnterdate(enterdate);
         setPhone(phone);
         setImg(img);
-        setChannel(channel);
-        setPort(port);
+        setEnterdate(enterdate);
+        setUid(uid);
     }
 
 
@@ -40,14 +39,6 @@ public class Item_Main {
         this.sex = sex;
     }
 
-    public String getEnterdate() {
-        return enterdate;
-    }
-
-    public void setEnterdate(String enterdate) {
-        this.enterdate = enterdate;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -64,19 +55,19 @@ public class Item_Main {
         this.img = img;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getEnterdate() {
+        return enterdate;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setEnterdate(String enterdate) {
+        this.enterdate = enterdate;
     }
 
-    public String getPort() {
-        return port;
+    public String getUid() {
+        return uid;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

@@ -4,6 +4,7 @@ package com.example.mate.gooday_mate.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,13 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
                 key = key_iterator.next().toString();
                 value = jsonObject.getString(key);
                 resId = getResources().getIdentifier(key, "id", "com.example.mate.gooday_mate");
-                textview = v.findViewById(resId);
 
-                if (!key.equals("id") && !key.equals("name") && !key.equals("image")) {
+                if (resId != 0 && (resId == R.id.birth || resId == R.id.sex || resId == R.id.phone || resId == R.id.guardian)) {
+                    textview = v.findViewById(resId);
+                    Log.i("InfoFragmentLOG  if", "key : " + key + " value : " + value + " resId : " + resId);
                     if ((value.trim().equals("null") || value.trim().equals(""))) {
-                        textview.setText("진료탭을 통하여 내용을 채워주세요");
-                    } else if (resId == R.id.birth || resId == R.id.sex || resId == R.id.phone || resId == R.id.guardian) {
+                        textview.setText("내용을 채워주세요");
+                    } else {
                         textview.setText(value);
                     }
                 }

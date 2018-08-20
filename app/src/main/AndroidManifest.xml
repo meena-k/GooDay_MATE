@@ -45,6 +45,10 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +57,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ShowPatientActivity" />
+        <activity android:name=".ShowPatientActivity">
+            <intent-filter>
+                <action android:name="ShowPatient" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ViewDocumentActivity" />
         <activity android:name=".DownloadSelectionActivity" />
         <activity android:name=".RegisterManagerActivity" />
@@ -67,7 +76,8 @@
         <activity android:name=".TreatmentImgDialogActivity" />
         <activity android:name=".SendImgToRaspiActivity" />
         <activity android:name=".EMRActivity" />
-        <activity android:name=".NFCActivity"></activity>
+        <activity android:name=".WriteAct" />
+        <activity android:name=".GoogleChartTextActivity" />
     </application>
 
 </manifest>
